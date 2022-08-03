@@ -5,13 +5,26 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Compra</title>
+<style>
+	
+	.error{ 
+    background-color: lightcoral;
+	
+	}
+
+</style>
 </head>
 <body>
 <% Billete b = (Billete) session.getAttribute("billete"); 
 if (b == null) {
 	b = new Billete();
 }
+String errorNombre= (String)session.getAttribute("errorNombre");
+String errorEdad= (String)session.getAttribute("errorEdad");
+String errorBillete= (String)session.getAttribute("errorBillete");
+String errorPasajeros= (String)session.getAttribute("errorPasajeros");
+
 %>
 <h1>Detalles del billete</h1>
     <form action="procesarBillete" method="post">
@@ -19,11 +32,21 @@ if (b == null) {
             <label for="nombre">Nombre<sub>*</sub>: </label>
             <input type="text" name="nombre" id="nombre" 
                    value="<%=b.getNombre() %>" required>
+                   	<%if (errorNombre!=null) {%>
+                   <div class="error">
+                   <%=errorNombre %>
+                   </div>
+                   <%} %>
         </div>
         <div>
             <label for="edad">Edad <sub>*</sub>:</label>
             <input type="text" name="edad" id="edad" 
                    value="<%=b.getEdad() %>" required>
+                    <%if (errorEdad!=null) {%>
+                   <div class="error">
+                   <%=errorEdad %>
+                   </div>
+                   <%} %>
         </div>
         <div>
             <label for="dni">DNI <sub>*</sub>:</label>
@@ -38,17 +61,29 @@ if (b == null) {
                 <option value="2" <%if (b.getTipoBillete()==2) out.print(" selected");%>>Joven </option>
                 <option value="3" <%if (b.getTipoBillete()==3) out.print(" selected");%>>3ª edad</option>
             </select>
+             	<%if (errorBillete!=null) {%>
+                   <div class="error">
+                   <%=errorBillete %>
+                   </div>
+                   <%} %>
         </div>
         <div>
             <label for="numPasajeros">Número de pasajeros<sub>*</sub>:</label>
             <input type="text" name="numPasajeros" id="numPasajeros" 
                    value="<%=b.getNumPasajeros() %>" required>
+                    <%if (errorPasajeros!=null) {%>
+                   <div class="error">
+                   <%=errorPasajeros %>
+                   </div>
+                   <%} %>
         </div>
         <div>
             <label for="">Modalidad: </label>
+            
             <input type="radio" name="modalidad" id="ida" value="ida" 
             <%if (!b.isIdayVuelta()){out.print(" checked");}  %>>
             <label for="ida">Ida</label>
+            
             <input type="radio" name="modalidad" id="idaVuelta" 
                    value="idaVuelta"
                    <%if (b.isIdayVuelta()){out.print(" checked");}  %>
